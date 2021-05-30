@@ -1,5 +1,5 @@
+import Layout from '@/components/Layout';
 import { css } from '@emotion/react';
-import Layout from '../components/Layout';
 
 const color = 'green';
 
