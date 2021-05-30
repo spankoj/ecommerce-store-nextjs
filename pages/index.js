@@ -1,6 +1,4 @@
 import { css } from '@emotion/react';
-// import { linkSync } from 'fs';
-import Link from 'next/link';
 import Layout from '../components/Layout';
 
 const color = 'green';
@@ -17,7 +15,6 @@ export default function Home() {
     <div>
       <Layout>
         <h1>Home</h1>
-        <Link href="/about">About</Link>
       </Layout>
     </div>
   );
