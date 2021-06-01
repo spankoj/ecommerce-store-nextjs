@@ -4,6 +4,7 @@ export default function AboutPage() {
   return (
     <Layout title="About site">
       <h1>About</h1>
+
       <p>
         This ecommerce web site is created by{' '}
         <span style={{ fontWeight: 'bold' }}>János Spanyol</span> as a bootcamp

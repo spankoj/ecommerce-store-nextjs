@@ -30,7 +30,6 @@ export default function HomePage({ products }) {
 export async function getServerSideProps() {
   const res = await fetch(`${API_URL}/api/products`);
   const products = await res.json();
-  console.log(products);
 
   return {
     props: { products },
