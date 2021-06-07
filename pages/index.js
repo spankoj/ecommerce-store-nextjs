@@ -1,7 +1,6 @@
 import Layout from '@/components/Layout';
-import ProductItem from '@/components/ProductItem';
-import { API_URL } from '@/config/index';
 import { css } from '@emotion/react';
+import Image from 'next/image';
 
 const color = 'green';
 
@@ -12,26 +11,18 @@ const divStyles = css`
   color: ${color};
 `;
 
-export default function HomePage({ products }) {
+export default function HomePage() {
   return (
     <div>
       <Layout>
-        <h1>Products</h1>
-        {products.length === 0 && <h3>No products to show</h3>}
-
-        {products.map((prod) => {
-          return <ProductItem key={prod.id} prod={prod} />;
-        })}
+        <h1>Landing Page</h1>
+        <Image
+          src="/images/landing.png"
+          alt="landing photo"
+          width={1000}
+          height={400}
+        />
       </Layout>
     </div>
   );
-}
-
-export async function getServerSideProps() {
-  const res = await fetch(`${API_URL}/api/products`);
-  const products = await res.json();
-
-  return {
-    props: { products },
-  };
 }
