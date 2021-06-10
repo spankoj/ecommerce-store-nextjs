@@ -3,7 +3,13 @@ import Head from 'next/head';
 import Footer from './Footer';
 import Header from './Header';
 
-export default function Layout({ title, keywords, description, children }) {
+export default function Layout({
+  title,
+  keywords,
+  description,
+  children,
+  ...props
+}) {
   return (
     <div>
       <Head>
@@ -12,7 +18,10 @@ export default function Layout({ title, keywords, description, children }) {
         <meta name="keywords" content={keywords}></meta>
       </Head>
 
-      <Header />
+      <Header
+        cartNumber={props.cartNumber}
+        setCartNumber={props.setCartNumber}
+      />
 
       <div className={styles.container}>{children}</div>
 

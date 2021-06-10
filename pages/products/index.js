@@ -1,5 +1,6 @@
 import Layout from '@/components/Layout';
 import ProductItem from '@/components/ProductItem';
+import { getInclusionDirectives } from '@apollo/client/utilities';
 
 export default function ProductsPage({ products }) {
   return (
@@ -13,7 +14,8 @@ export default function ProductsPage({ products }) {
 }
 
 export async function getServerSideProps() {
-  const { products } = await import('../../utils/database');
+  const { getProducts } = await import('../../utils/database');
+  const products = await getProducts();
   return {
     props: { products },
   };

@@ -1,9 +1,8 @@
 import styles from '@/styles/Header.module.css';
-import Image from 'next/link';
 import Link from 'next/link';
 import { FaShoppingCart } from 'react-icons/fa';
 
-export default function Header() {
+export default function Header(props) {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
@@ -29,7 +28,7 @@ export default function Header() {
             </Link>
           </li>
           <li>
-            <p>1 pc(s)</p>
+            <p>{props.cartNumber}</p>
           </li>
         </ul>
       </nav>

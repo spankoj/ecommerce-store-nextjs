@@ -4,10 +4,10 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { getCookieValue, setCookie } from '../../utils/cookies';
 
-export default function ProductPage({ prod }) {
+export default function ProductPage({ prod, ...props }) {
   const [quantity, setQuantity] = useState('1');
   return (
-    <Layout>
+    <Layout cartNumber={props.cartNumber} setCartNumber={props.setCartNumber}>
       <div>
         <div>
           <h1>{prod.name}</h1>
@@ -45,17 +45,28 @@ export default function ProductPage({ prod }) {
             />
             <button
               onClick={() => {
-                const outDatedValue = getCookieValue('cart') || [];
+                const previousCookieValue = getCookieValue('cart') || [];
+                let upDatedCookieValue;
                 if (
-                  outDatedValue.some((cookieObj) => cookieObj.id === prod.id)
+                  previousCookieValue.some(
+                    (cookieObj) => cookieObj.id === prod.id,
+                  )
                 ) {
+                  const cookieObject = previousCookieValue.find(
+                    (cookieobj) => cookieobj.id === prod.id,
+                  );
+                  cookieObject.quantity =
+                    cookieObject.quantity + Number(quantity);
+                  upDatedCookieValue = [...previousCookieValue];
                 } else {
-                  const upDatedValue = [
-                    ...outDatedValue,
-                    { id: prod.id, quantity: quantity },
+                  upDatedCookieValue = [
+                    ...previousCookieValue,
+                    { id: prod.id, quantity: Number(quantity) },
                   ];
                 }
-                setCookie('cart', upDatedValue);
+                setCookie('cart', upDatedCookieValue);
+                props.setCartNumber(props.cartNumber + Number(quantity));
+                handleCartItem;
               }}
             >
               Add to cart
@@ -67,11 +78,12 @@ export default function ProductPage({ prod }) {
   );
 }
 
-export async function getServerSideProps({ query: { slug } }) {
-  const res = await fetch(`${API_URL}/api/products/${slug}`);
-  const products = await res.json();
+export async function getServerSideProps(context) {
+  const prodId = context.query.prodId;
+  const { getProductById } = await import('../../utils/database');
+  const prod = await getProductById(prodId);
 
   return {
-    props: { prod: products[0] },
+    props: { prod: prod },
   };
 }
