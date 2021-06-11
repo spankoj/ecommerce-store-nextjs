@@ -1,10 +1,10 @@
 import Layout from '@/components/Layout';
-import { API_URL } from '@/config/index';
 import Image from 'next/image';
 import { useState } from 'react';
 import { getCookieValue, setCookie } from '../../utils/cookies';
 
 export default function ProductPage({ prod, ...props }) {
+  console.log(props);
   const [quantity, setQuantity] = useState('1');
   return (
     <Layout cartNumber={props.cartNumber} setCartNumber={props.setCartNumber}>
@@ -30,10 +30,10 @@ export default function ProductPage({ prod, ...props }) {
               flexDirection: 'row',
               justifyContent: 'space-between',
               padding: '5px',
-              width: '250px',
+              width: '280px',
             }}
           >
-            <h3>Amount:</h3>
+            <h3>Quantity:</h3>
             <input
               style={{ marginLeft: '10px', width: '40px' }}
               type="number"
@@ -44,6 +44,7 @@ export default function ProductPage({ prod, ...props }) {
               }}
             />
             <button
+              className="btn"
               onClick={() => {
                 const previousCookieValue = getCookieValue('cart') || [];
                 let upDatedCookieValue;
@@ -66,7 +67,32 @@ export default function ProductPage({ prod, ...props }) {
                 }
                 setCookie('cart', upDatedCookieValue);
                 props.setCartNumber(props.cartNumber + Number(quantity));
-                handleCartItem;
+
+                const isItemInCart = props.cartItems.find((item) => {
+                  return item.id === prod.id;
+                });
+                if (isItemInCart) {
+                  // [{id:1, quantity:1, name: abc},{id:2, quantity:2, name: cba}]
+                  return props.setCartItems(
+                    props.cartItems.map((item) => {
+                      if (item.id === prod.id) {
+                        item.quantity = item.quantity + quantity;
+                        return { ...item };
+                      }
+                      return { ...item };
+                    }),
+                  );
+                }
+                props.setCartItems([
+                  ...props.cartItems,
+                  {
+                    id: prod.id,
+                    image: prod.image,
+                    name: prod.name,
+                    price: prod.price,
+                    quantity: quantity,
+                  },
+                ]);
               }}
             >
               Add to cart
@@ -79,9 +105,12 @@ export default function ProductPage({ prod, ...props }) {
 }
 
 export async function getServerSideProps(context) {
-  const prodId = context.query.prodId;
-  const { getProductById } = await import('../../utils/database');
-  const prod = await getProductById(prodId);
+  // The name inside the square brackets of the filename
+  // is inside of the `context.query` object
+  const slug = context.query.slug;
+  console.log('slug:', slug);
+  const { getProductBySlug } = await import('../../utils/database');
+  const prod = await getProductBySlug(slug);
 
   return {
     props: { prod: prod },

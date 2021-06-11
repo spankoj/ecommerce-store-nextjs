@@ -13,11 +13,14 @@ function MyApp({ Component, pageProps }) {
 
   // Create states for quantity to be refreshed in UI
   const [cartNumber, setCartNumber] = useState(cartInit);
+  const [cartItems, setCartItems] = useState([]);
 
   return (
     <Component
       cartNumber={cartNumber}
       setCartNumber={setCartNumber}
+      cartItems={cartItems}
+      setCartItems={setCartItems}
       {...pageProps}
     />
   );
