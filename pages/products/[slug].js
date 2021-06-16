@@ -72,7 +72,6 @@ export default function ProductPage({ prod, ...props }) {
                   return item.id === prod.id;
                 });
                 if (isItemInCart) {
-                  // [{id:1, quantity:1, name: abc},{id:2, quantity:2, name: cba}]
                   return props.setCartItems(
                     props.cartItems.map((item) => {
                       if (item.id === prod.id) {

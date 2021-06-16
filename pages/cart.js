@@ -1,13 +1,34 @@
 import Layout from '@/components/Layout';
 import styles from '@/styles/Cart.module.css';
 import Image from 'next/image';
+import Link from 'next/link';
 
 function cart(props) {
   console.log(props);
   return (
     <Layout>
-      <div>
-        <h1>Cart Page</h1>
+      <div className={styles.page}>
+        <h1>Your Cart</h1>
+        {/* {JSON.stringify(props.cartItems)} */}
+        <div className={styles.sumdiv}>
+          <h3>Your Total:</h3>
+          <p>
+            {props.cartItems.reduce((accumulator, currentValue) => {
+              return accumulator + currentValue.price * currentValue.quantity;
+            }, 0)}{' '}
+            EUR
+          </p>
+
+          <Link href="/checkout">
+            <a>Check out</a>
+          </Link>
+          <button
+            className="btn"
+            style={{ background: 'gray', margin: '10px 0' }}
+          >
+            Clear
+          </button>
+        </div>
         <div>
           {props.cartItems.length > 0 &&
             props.cartItems.map((item) => (
