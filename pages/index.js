@@ -13,10 +13,10 @@ const divStyles = css`
   color: ${color};
 `;
 
-export default function HomePage() {
+export default function HomePage(props) {
   return (
     <div>
-      <Layout>
+      <Layout cartNumber={props.cartNumber} setCartNumber={props.setCartNumber}>
         <h1>Landing Page</h1>
         <Image
           src="/images/landing.png"

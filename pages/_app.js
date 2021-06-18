@@ -7,9 +7,10 @@ function MyApp({ Component, pageProps }) {
   const cartInit =
     getCookieValue('cart')
       ?.map((qty) => qty.quantity)
-      .reduce(function (total, amount) {
+      ?.reduce(function (total, amount) {
         return total + amount;
-      }) || 0;
+      }, 0) || 0;
+  // console.log(getCookieValue('cart'));
 
   // Create states for quantity to be refreshed in UI
   const [cartNumber, setCartNumber] = useState(cartInit);

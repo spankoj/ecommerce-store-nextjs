@@ -1,10 +1,13 @@
 import Layout from '@/components/Layout';
 import ProductItem from '@/components/ProductItem';
-import { getInclusionDirectives } from '@apollo/client/utilities';
 
-export default function ProductsPage({ products }) {
+export default function ProductsPage({ products, cartNumber, setCartNumber }) {
   return (
-    <Layout title="Products page">
+    <Layout
+      title="Products page"
+      cartNumber={cartNumber}
+      setCartNumber={setCartNumber}
+    >
       <h1>Products Page</h1>
       {products.map((prod) => {
         return <ProductItem key={prod.id} prod={prod} />;

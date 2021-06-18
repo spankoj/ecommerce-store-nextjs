@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { getCookieValue, setCookie } from '../../utils/cookies';
 
 export default function ProductPage({ prod, ...props }) {
-  console.log(props);
+  // console.log(props);
   const [quantity, setQuantity] = useState('1');
   return (
     <Layout cartNumber={props.cartNumber} setCartNumber={props.setCartNumber}>
@@ -107,7 +107,7 @@ export async function getServerSideProps(context) {
   // The name inside the square brackets of the filename
   // is inside of the `context.query` object
   const slug = context.query.slug;
-  console.log('slug:', slug);
+  // console.log('slug:', slug);
   const { getProductBySlug } = await import('../../utils/database');
   const prod = await getProductBySlug(slug);
 
